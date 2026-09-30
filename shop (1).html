@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kiln &amp; Co. | Blue-glazed ceramics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f6f8fc;
+    --ink: #0f1a2e;
+    --muted: #55617a;
+    --cobalt: #1f3fbf;
+    --cobalt-dark: #162e8f;
+    --glaze: #d6e3ff;
+    --saffron: #f2b233;
+    --line: #dbe2f0;
+    --card: #ffffff;
+    --font-display: "Bricolage Grotesque", "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0b1222; --ink: #eef2fb; --muted: #9aa8c6; --cobalt: #6b8cff;
+      --cobalt-dark: #8ea6ff; --glaze: #1a2a54; --line: #22304f; --card: #111b33;
+    }
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: var(--font-body); font-size: 1rem; line-height: 1.55;
+  }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--saffron); outline-offset: 2px; }
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 1.25rem; }
+
+  /* Header */
+  header { border-bottom: 1px solid var(--line); background: var(--bg); position: sticky; top: 0; z-index: 10; }
+  .bar { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+  .logo { font-family: var(--font-display); font-weight: 800; font-size: 1.35rem; text-decoration: none; letter-spacing: -0.02em; }
+  .logo span { color: var(--cobalt); }
+  nav { display: flex; gap: 1.5rem; align-items: center; }
+  nav a.link { text-decoration: none; color: var(--muted); font-weight: 500; }
+  nav a.link:hover { color: var(--ink); }
+  .cart-btn {
+    font: inherit; font-weight: 600; cursor: pointer; border: 2px solid var(--ink);
+    background: transparent; color: var(--ink); padding: .4rem .9rem; border-radius: 999px;
+    display: inline-flex; gap: .5rem; align-items: center;
+  }
+  .cart-btn:hover { background: var(--ink); color: var(--bg); }
+  .count {
+    background: var(--saffron); color: #1a1200; border-radius: 999px; min-width: 1.5rem;
+    height: 1.5rem; display: inline-grid; place-items: center; font-size: .8rem; padding: 0 .35rem;
+  }
+
+  /* Hero */
+  .hero { padding: 4.5rem 0 3rem; display: grid; grid-template-columns: 1.3fr 1fr; gap: 2rem; align-items: center; }
+  .hero h1 {
+    font-family: var(--font-display); font-weight: 800; letter-spacing: -0.035em;
+    font-size: clamp(2.4rem, 6vw, 4.6rem); line-height: 1; margin: 0 0 1.25rem;
+  }
+  .hero p { color: var(--muted); max-width: 46ch; font-size: 1.1rem; margin: 0 0 1.75rem; }
+  .btn {
+    font: inherit; font-weight: 600; cursor: pointer; border: 0; border-radius: 10px;
+    background: var(--cobalt); color: #fff; padding: .8rem 1.4rem; text-decoration: none; display: inline-block;
+  }
+  .btn:hover { background: var(--cobalt-dark); }
+  .hero-art { background: var(--glaze); border-radius: 50% 50% 18px 18px; padding: 1.5rem; }
+  .hero-art svg { width: 100%; height: auto; display: block; }
+
+  /* Products */
+  .section-head { display: flex; justify-content: space-between; align-items: end; margin: 2rem 0 1.25rem; gap: 1rem; flex-wrap: wrap; }
+  .section-head h2 { font-family: var(--font-display); font-size: 2rem; letter-spacing: -0.02em; margin: 0; }
+  .filters { display: flex; gap: .5rem; flex-wrap: wrap; }
+  .chip {
+    font: inherit; cursor: pointer; border: 1px solid var(--line); background: var(--card);
+    color: var(--ink); padding: .35rem .9rem; border-radius: 999px;
+  }
+  .chip[aria-pressed="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.5rem; padding-bottom: 4rem; }
+  .product { display: flex; flex-direction: column; }
+  .product .art { border-radius: 14px; padding: 1.25rem; aspect-ratio: 1 / 1; display: grid; place-items: center; }
+  .product .art svg { width: 82%; height: auto; }
+  .product h3 { font-family: var(--font-display); font-size: 1.15rem; margin: .9rem 0 .1rem; }
+  .product .desc { color: var(--muted); font-size: .92rem; margin: 0 0 .8rem; flex: 1; }
+  .row { display: flex; justify-content: space-between; align-items: center; }
+  .price { font-weight: 600; font-size: 1.1rem; }
+  .add {
+    font: inherit; font-weight: 600; cursor: pointer; background: transparent; color: var(--cobalt);
+    border: 2px solid var(--cobalt); border-radius: 8px; padding: .35rem .9rem;
+  }
+  .add:hover { background: var(--cobalt); color: #fff; }
+  .add.done { background: var(--cobalt); color: #fff; }
+
+  /* About + footer */
+  .about { background: var(--cobalt); color: #fff; padding: 3.5rem 0; }
+  .about p { max-width: 60ch; font-size: 1.2rem; margin: 0; }
+  footer { padding: 2rem 0; color: var(--muted); font-size: .92rem; }
+
+  /* Cart drawer */
+  .overlay { position: fixed; inset: 0; background: rgba(8, 14, 30, .5); opacity: 0; pointer-events: none; transition: opacity .2s; z-index: 20; }
+  .overlay.open { opacity: 1; pointer-events: auto; }
+  .drawer {
+    position: fixed; top: 0; right: 0; height: 100%; width: min(420px, 100%); background: var(--card);
+    z-index: 30; transform: translateX(100%); transition: transform .25s ease; display: flex; flex-direction: column;
+    border-left: 1px solid var(--line);
+  }
+  .drawer.open { transform: none; }
+  .drawer header { position: static; display: flex; justify-content: space-between; align-items: center; padding: 1rem 1.25rem; background: var(--card); }
+  .drawer h2 { font-family: var(--font-display); margin: 0; font-size: 1.3rem; }
+  .close { font: inherit; font-size: 1.6rem; line-height: 1; background: none; border: 0; cursor: pointer; color: var(--ink); padding: .25rem .5rem; }
+  .items { flex: 1; overflow-y: auto; padding: 0 1.25rem; }
+  .empty { color: var(--muted); padding: 2rem 0; }
+  .item { display: grid; grid-template-columns: 64px 1fr auto; gap: .9rem; align-items: center; padding: .9rem 0; border-bottom: 1px solid var(--line); }
+  .item .thumb { width: 64px; height: 64px; border-radius: 10px; display: grid; place-items: center; }
+  .item .thumb svg { width: 80%; }
+  .item strong { display: block; }
+  .qty { display: inline-flex; align-items: center; gap: .5rem; margin-top: .25rem; }
+  .qty button { width: 1.7rem; height: 1.7rem; border-radius: 6px; border: 1px solid var(--line); background: var(--bg); color: var(--ink); cursor: pointer; font: inherit; }
+  .remove { background: none; border: 0; color: var(--muted); cursor: pointer; font: inherit; text-decoration: underline; }
+  .foot { padding: 1.25rem; border-top: 1px solid var(--line); }
+  .total { display: flex; justify-content: space-between; font-weight: 600; font-size: 1.15rem; margin-bottom: 1rem; }
+  .foot .btn { width: 100%; }
+  .foot .btn[disabled] { opacity: .4; cursor: not-allowed; }
+  .note { color: var(--muted); font-size: .85rem; margin: .75rem 0 0; min-height: 1.3em; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; padding-top: 2.5rem; }
+    .hero-art { max-width: 320px; }
+    nav a.link { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; scroll-behavior: auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap bar">
+    <a class="logo" href="#top">Kiln <span>&amp;</span> Co.</a>
+    <nav>
+      <a class="link" href="#shop">Shop</a>
+      <a class="link" href="#about">About</a>
+      <button class="cart-btn" id="openCart" aria-label="Open cart">
+        Cart <span class="count" id="cartCount" aria-live="polite">0</span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <section class="wrap hero">
+    <div>
+      <h1>Blue-glazed ceramics for everyday use.</h1>
+      <p>Mugs, bowls and vases thrown by hand in small batches. Dishwasher safe, food safe, and made to be used every day.</p>
+      <a class="btn" href="#shop">Shop the collection</a>
+    </div>
+    <div class="hero-art" id="heroArt" aria-hidden="true"></div>
+  </section>
+
+  <section class="wrap" id="shop">
+    <div class="section-head">
+      <h2>The collection</h2>
+      <div class="filters" id="filters" role="group" aria-label="Filter products"></div>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <section class="about" id="about">
+    <div class="wrap">
+      <p>Every piece is thrown on the wheel, glazed by hand and fired twice. No two are exactly alike, so small differences in the blue are part of what you're buying.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">&copy; <span id="year"></span> Kiln &amp; Co. Orders ship within 3 to 5 working days.</div>
+</footer>
+
+<div class="overlay" id="overlay"></div>
+<aside class="drawer" id="drawer" aria-hidden="true" aria-label="Shopping cart">
+  <header>
+    <h2>Your cart</h2>
+    <button class="close" id="closeCart" aria-label="Close cart">&times;</button>
+  </header>
+  <div class="items" id="items"></div>
+  <div class="foot">
+    <div class="total"><span>Total</span><span id="total">0</span></div>
+    <button class="btn" id="checkout" disabled>Checkout</button>
+    <p class="note" id="note"></p>
+  </div>
+</aside>
+
+<script>
+/* ---------- Settings: edit these ---------- */
+const CURRENCY = "$";
+
+const PRODUCTS = [
+  { id: 1, name: "Everyday mug",     cat: "Mugs",   price: 24, shape: "mug",     pattern: "stripes", tint: "#d6e3ff", desc: "350 ml. Comfortable handle, thick walls that keep tea warm." },
+  { id: 2, name: "Noodle bowl",      cat: "Bowls",  price: 32, shape: "bowl",    pattern: "dots",    tint: "#fbe7b8", desc: "Wide and deep, good for ramen, soups or cereal." },
+  { id: 3, name: "Tall vase",        cat: "Vases",  price: 46, shape: "vase",    pattern: "waves",   tint: "#dfeee6", desc: "Narrow neck holds a few stems. Sealed inside, holds water." },
+  { id: 4, name: "Dinner plate",     cat: "Plates", price: 28, shape: "plate",   pattern: "rings",   tint: "#e9ddf6", desc: "26 cm across with a raised rim and a glossy glaze." },
+  { id: 5, name: "Teapot",           cat: "Mugs",   price: 58, shape: "teapot",  pattern: "stripes", tint: "#ffd9d0", desc: "700 ml with a built-in strainer and a lid that stays put." },
+  { id: 6, name: "Tumbler",          cat: "Mugs",   price: 20, shape: "tumbler", pattern: "dots",    tint: "#d6e3ff", desc: "Handleless, 300 ml. Good for water, wine or a pen holder." }
+];
+/* ------------------------------------------ */
+
+const COBALT = "#1f3fbf", INK = "#0f1a2e";
+
+const SHAPES = {
+  mug:     { d: "M50 60H130V130A20 20 0 0 1 110 150H70A20 20 0 0 1 50 130Z",
+             extra: '<path d="M130 78h12a16 16 0 0 1 0 38h-12" fill="none" stroke="'+INK+'" stroke-width="7" stroke-linecap="round"/>' },
+  bowl:    { d: "M30 80H170A70 70 0 0 1 30 80Z", extra: '<rect x="75" y="148" width="50" height="8" rx="3" fill="#fff" stroke="'+INK+'" stroke-width="3"/>' },
+  vase:    { d: "M85 40h30v20c40 20 45 60 30 100h-90c-15-40-10-80 30-100z", extra: "" },
+  plate:   { d: "M15 110A85 30 0 1 0 185 110A85 30 0 1 0 15 110Z", extra: "" },
+  teapot:  { d: "M40 110A55 45 0 1 0 150 110A55 45 0 1 0 40 110Z",
+             extra: '<path d="M148 100c18-4 32-16 36-32" fill="none" stroke="'+INK+'" stroke-width="7" stroke-linecap="round"/>'
+                  + '<path d="M44 96C22 96 18 128 44 132" fill="none" stroke="'+INK+'" stroke-width="7" stroke-linecap="round"/>'
+                  + '<path d="M70 72a25 12 0 0 1 50 0z" fill="#fff" stroke="'+INK+'" stroke-width="3"/><circle cx="95" cy="60" r="6" fill="'+COBALT+'"/>' },
+  tumbler: { d: "M65 45H135L127 150H73Z", extra: "" }
+};
+
+function decoration(pattern) {
+  let s = "";
+  if (pattern === "stripes") {
+    s += '<rect x="0" y="70" width="200" height="12" fill="'+COBALT+'"/><rect x="0" y="92" width="200" height="4" fill="'+COBALT+'"/>';
+  } else if (pattern === "dots") {
+    for (let y = 70; y < 150; y += 20) for (let x = (y / 20) % 2 ? 60 : 50; x < 160; x += 20) s += '<circle cx="'+x+'" cy="'+y+'" r="5" fill="'+COBALT+'"/>';
+  } else if (pattern === "waves") {
+    for (let y = 80; y < 160; y += 22) s += '<path d="M0 '+y+'q12.5-14 25 0t25 0t25 0t25 0t25 0t25 0t25 0t25 0" fill="none" stroke="'+COBALT+'" stroke-width="5"/>';
+  } else if (pattern === "rings") {
+    s += '<ellipse cx="100" cy="110" rx="62" ry="20" fill="none" stroke="'+COBALT+'" stroke-width="6"/><ellipse cx="100" cy="110" rx="40" ry="11" fill="'+COBALT+'"/>';
+  }
+  return s;
+}
+
+function art(p) {
+  const sh = SHAPES[p.shape], id = "c" + p.id + Math.random().toString(36).slice(2, 6);
+  return '<svg viewBox="0 0 200 200" role="img" aria-label="' + p.name + '">'
+    + '<defs><clipPath id="' + id + '"><path d="' + sh.d + '"/></clipPath></defs>'
+    + sh.extra
+    + '<path d="' + sh.d + '" fill="#fff"/>'
+    + '<g clip-path="url(#' + id + ')">' + decoration(p.pattern) + '</g>'
+    + '<path d="' + sh.d + '" fill="none" stroke="' + INK + '" stroke-width="3.5" stroke-linejoin="round"/>'
+    + '</svg>';
+}
+
+const money = n => CURRENCY + n.toFixed(2).replace(/\.00$/, "");
+
+/* ---------- Cart state ---------- */
+let cart = [];
+try { cart = JSON.parse(localStorage.getItem("kiln-cart") || "[]"); } catch (e) { cart = []; }
+cart = cart.filter(c => PRODUCTS.some(p => p.id === c.id));
+const save = () => { try { localStorage.setItem("kiln-cart", JSON.stringify(cart)); } catch (e) {} };
+
+const $ = id => document.getElementById(id);
+
+function addToCart(id) {
+  const line = cart.find(c => c.id === id);
+  line ? line.qty++ : cart.push({ id, qty: 1 });
+  save(); renderCart();
+}
+function changeQty(id, delta) {
+  const line = cart.find(c => c.id === id);
+  if (!line) return;
+  line.qty += delta;
+  if (line.qty <= 0) cart = cart.filter(c => c.id !== id);
+  save(); renderCart();
+}
+function removeLine(id) { cart = cart.filter(c => c.id !== id); save(); renderCart(); }
+
+function renderCart() {
+  const count = cart.reduce((n, c) => n + c.qty, 0);
+  $("cartCount").textContent = count;
+  const box = $("items");
+  if (!cart.length) {
+    box.innerHTML = '<p class="empty">Your cart is empty. Add something from the collection.</p>';
+  } else {
+    box.innerHTML = cart.map(c => {
+      const p = PRODUCTS.find(x => x.id === c.id);
+      return '<div class="item">'
+        + '<div class="thumb" style="background:' + p.tint + '">' + art(p) + '</div>'
+        + '<div><strong>' + p.name + '</strong>'
+        + '<div class="qty"><button aria-label="Decrease quantity of ' + p.name + '" data-dec="' + p.id + '">&minus;</button>'
+        + '<span>' + c.qty + '</span>'
+        + '<button aria-label="Increase quantity of ' + p.name + '" data-inc="' + p.id + '">+</button></div></div>'
+        + '<div style="text-align:right"><div>' + money(p.price * c.qty) + '</div>'
+        + '<button class="remove" data-rem="' + p.id + '">Remove</button></div></div>';
+    }).join("");
+  }
+  const total = cart.reduce((n, c) => n + PRODUCTS.find(p => p.id === c.id).price * c.qty, 0);
+  $("total").textContent = money(total);
+  $("checkout").disabled = !cart.length;
+}
+
+/* ---------- Drawer ---------- */
+function openCart() {
+  $("drawer").classList.add("open"); $("overlay").classList.add("open");
+  $("drawer").setAttribute("aria-hidden", "false"); $("closeCart").focus();
+}
+function closeCart() {
+  $("drawer").classList.remove("open"); $("overlay").classList.remove("open");
+  $("drawer").setAttribute("aria-hidden", "true"); $("openCart").focus();
+}
+$("openCart").addEventListener("click", openCart);
+$("closeCart").addEventListener("click", closeCart);
+$("overlay").addEventListener("click", closeCart);
+document.addEventListener("keydown", e => { if (e.key === "Escape" && $("drawer").classList.contains("open")) closeCart(); });
+
+$("items").addEventListener("click", e => {
+  const t = e.target;
+  if (t.dataset.inc) changeQty(+t.dataset.inc, 1);
+  if (t.dataset.dec) changeQty(+t.dataset.dec, -1);
+  if (t.dataset.rem) removeLine(+t.dataset.rem);
+});
+
+/* This is a demo: connect your payment provider here (Stripe, Razorpay, PayPal, etc). */
+$("checkout").addEventListener("click", () => {
+  $("note").textContent = "Checkout isn't connected yet. Add your payment provider in the checkout click handler.";
+});
+
+/* ---------- Product grid + filters ---------- */
+let activeCat = "All";
+function renderGrid() {
+  const list = PRODUCTS.filter(p => activeCat === "All" || p.cat === activeCat);
+  $("grid").innerHTML = list.map(p =>
+    '<article class="product"><div class="art" style="background:' + p.tint + '">' + art(p) + '</div>'
+    + '<h3>' + p.name + '</h3><p class="desc">' + p.desc + '</p>'
+    + '<div class="row"><span class="price">' + money(p.price) + '</span>'
+    + '<button class="add" data-add="' + p.id + '" aria-label="Add ' + p.name + ' to cart">Add to cart</button></div></article>'
+  ).join("");
+}
+function renderFilters() {
+  const cats = ["All", ...new Set(PRODUCTS.map(p => p.cat))];
+  $("filters").innerHTML = cats.map(c =>
+    '<button class="chip" data-cat="' + c + '" aria-pressed="' + (c === activeCat) + '">' + c + '</button>').join("");
+}
+$("filters").addEventListener("click", e => {
+  if (!e.target.dataset.cat) return;
+  activeCat = e.target.dataset.cat; renderFilters(); renderGrid();
+});
+$("grid").addEventListener("click", e => {
+  const b = e.target.closest("[data-add]");
+  if (!b) return;
+  addToCart(+b.dataset.add);
+  b.classList.add("done"); b.textContent = "Added";
+  setTimeout(() => { b.classList.remove("done"); b.textContent = "Add to cart"; }, 1200);
+});
+
+/* ---------- Init ---------- */
+$("heroArt").innerHTML = art({ id: 0, name: "Blue-glazed mug", shape: "mug", pattern: "stripes" });
+$("year").textContent = new Date().getFullYear();
+renderFilters(); renderGrid(); renderCart();
+</script>
+</body>
+</html>
